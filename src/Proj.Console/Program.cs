@@ -1,6 +1,13 @@
-﻿using Proj.Drive.CVM;
+﻿using Microsoft.AspNetCore.Hosting;
+using Proj.Drive.CVM;
+using Proj.Drive.FormCVM;
 
-await ExecutarPrograma();
+ProcessFormCVM process = new();
+var pathImg = await process.BuscarImgCodCaptchaCvm();
+await process.DecodificarCodigo(pathImg);
+
+
+//await ExecutarPrograma();
 
 
 
@@ -22,7 +29,8 @@ static async Task ExecutarPrograma()
         Console.WriteLine(
             "\n\n-------------------------MENU INICIAL-------------------------\n" +
             "\n(1) Buscar valor no arquivo CSV" +
-            "\n(2) Fechar programa" +
+            "\n(2) Pesquisar na CVM" +
+            "\n(0) Fechar programa" +
             "\n\n--------------------------------------------------------------" +
             "\nDigite uma opção do menu:"
         );
@@ -44,13 +52,21 @@ static async Task ExecutarPrograma()
                 }
 
                 if (driveCsv.FindInCsv(buscar))
-                    Console.WriteLine($"\n'{buscar}' foi encontrado no arquivo");
+                    Console.WriteLine($"\nSUCESS: '{buscar}' foi encontrado no arquivo");
                 else
-                    Console.WriteLine($"\n'{buscar}' não foi encontrado no arquivo");
+                    Console.WriteLine($"\nFAIL: '{buscar}' não foi encontrado no arquivo");
 
                 break;
 
+
             case "2":
+                ProcessFormCVM driveCvm = new();
+                //await driveCvm.Process();
+
+
+                break;
+
+            case "0":
                 Console.WriteLine($"\nEncerrando sistema...");
                 fim = true;
                 break;

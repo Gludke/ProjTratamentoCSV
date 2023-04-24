@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Proj.Drive.CVM\Proj.Drive.CVM.csproj" />
+    <ProjectReference Include="..\Proj.Drive.FormCVM\Proj.Drive.FormCVM.csproj" />
+    <ProjectReference Include="..\Proj.Shared\Proj.Shared.csproj" />
   </ItemGroup>
 
 </Project>

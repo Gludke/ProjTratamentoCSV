@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using Proj.Shared;
 
 namespace Proj.Drive.CVM
 {
@@ -24,15 +24,12 @@ namespace Proj.Drive.CVM
             if (response.IsSuccessStatusCode)
             {
                 var streamNewDoc = await response.Content.ReadAsStreamAsync();
-                Stream cloneStream = streamNewDoc;
-                
-                //tentar clonar para corrigir erro.
-                cloneStream.Close();
 
                 if (File.Exists(_pathDocCsv))
                 {
+                    var streamToTest = await response.Content.ReadAsStreamAsync();
                     //Compara o conteúdo dos dois arquivos
-                    if (!Utils.CompararArquivos(cloneStream, _pathDocCsv))
+                    if (!Utils.CompararArquivos(streamToTest, _pathDocCsv))
                     {
                         //substitui o arquivo pelo novo quando são diferentes
                         Utils.CopyFile(streamNewDoc, $"{Path.GetFileName(_urlCsv)}");

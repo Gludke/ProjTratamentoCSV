@@ -1,4 +1,4 @@
-﻿namespace Proj.Drive.CVM
+﻿namespace Proj.Shared
 {
     public static class Utils
     {
@@ -38,6 +38,15 @@
         {
             byte[] fileBytes = ConvertToBytes(fileStream);
 
+            var pathFile = $"{GetRoot()}\\{fileName}";
+
+            File.WriteAllBytes(pathFile, fileBytes);
+
+            return pathFile;
+        }
+
+        public static string CopyFile(byte[] fileBytes, string fileName)
+        {
             var pathFile = $"{GetRoot()}\\{fileName}";
 
             File.WriteAllBytes(pathFile, fileBytes);
