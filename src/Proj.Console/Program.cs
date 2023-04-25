@@ -2,12 +2,7 @@
 using Proj.Drive.CVM;
 using Proj.Drive.FormCVM;
 
-ProcessFormCVM process = new();
-var pathImg = await process.BuscarImgCodCaptchaCvm();
-await process.DecodificarCodigo(pathImg);
-
-
-//await ExecutarPrograma();
+await ExecutarPrograma();
 
 
 
@@ -28,8 +23,8 @@ static async Task ExecutarPrograma()
     {
         Console.WriteLine(
             "\n\n-------------------------MENU INICIAL-------------------------\n" +
-            "\n(1) Buscar valor no arquivo CSV" +
-            "\n(2) Pesquisar na CVM" +
+            "\n(1) Atualizar base de dados" +
+            "\n(2) Buscar valor na base de dados" +
             "\n(0) Fechar programa" +
             "\n\n--------------------------------------------------------------" +
             "\nDigite uma opção do menu:"
@@ -39,30 +34,38 @@ static async Task ExecutarPrograma()
         switch (opcao)
         {
             case "1":
-                ProcessCsv driveCsv = new();
-                await driveCsv.CopyCsvFromUrl();
+                Console.WriteLine($"\nATUALIZANDO BASE...");
 
-                Console.WriteLine($"\nDigite o valor que deseja buscar no arquivo: ");
-                var buscar = Console.ReadLine();
+                var driveCsv = new ProcessCsv();
+                await driveCsv.CopyCsvFromUrlZip();
 
-                while (string.IsNullOrEmpty(buscar))
-                {
-                    Console.WriteLine($"\nOpção inválida. Digite o valor que deseja buscar no arquivo: ");
-                    buscar = Console.ReadLine();
-                }
-
-                if (driveCsv.FindInCsv(buscar))
-                    Console.WriteLine($"\nSUCESS: '{buscar}' foi encontrado no arquivo");
-                else
-                    Console.WriteLine($"\nFAIL: '{buscar}' não foi encontrado no arquivo");
+                Console.WriteLine($"\nBASE ATUALIZADA COM SUCESSO");
 
                 break;
 
-
             case "2":
-                ProcessFormCVM driveCvm = new();
-                //await driveCvm.Process();
+                var driveCsv2 = new ProcessCsv();
 
+                Console.WriteLine($"\nDigite o CNPJ que deseja buscar no arquivo: ");
+                var cnpj = Console.ReadLine();
+                Console.WriteLine($"\nInforme qual o 'Tipo de Prestador' que deseja buscar para esse CNPJ: ");
+                var tpPrest = Console.ReadLine();
+
+                while (string.IsNullOrEmpty(cnpj) || string.IsNullOrEmpty(tpPrest))
+                {
+                    Console.WriteLine($"\nOPÇÃO INVÁLIDA");
+                    Console.WriteLine($"\nDigite o CNPJ que deseja buscar no arquivo: ");
+                    cnpj = Console.ReadLine();
+                    Console.WriteLine($"\nInforme qual o 'Tipo de Prestador' que deseja buscar para esse CNPJ: ");
+                    tpPrest = Console.ReadLine();
+                }
+
+                Console.WriteLine($"\nBUSCANDO...");
+
+                if (driveCsv2.FindInCsv(cnpj, tpPrest))
+                    Console.WriteLine($"\nSUCESS: '{cnpj}' do tipo '{tpPrest}' foi encontrado no arquivo");
+                else
+                    Console.WriteLine($"\nFAIL: '{cnpj}' do tipo '{tpPrest}' não foi encontrado no arquivo");
 
                 break;
 
