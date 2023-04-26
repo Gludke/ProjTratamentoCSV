@@ -67,13 +67,17 @@ namespace Proj.Drive.CVM
                         continue;
 
                     //Pega o valor da coluna CNPJ
-                    var columnCnpj = linha.Split(',')[0];
+                    var columnCnpj = linha.Split(';')[0];
                     columnCnpj = Regex.Replace(columnCnpj, @"[-./]", "");
 
-                    if (columnCnpj.Contains(cnpj) 
-                        && linha!.RemoveAccents().ToUpper().Contains(tipoPrestador!.RemoveAccents().ToUpper()))
+                    if (columnCnpj.Contains(cnpj))
                     {
-                        find = true;
+                        linha = linha!.RemoveAccents().ToUpper();
+                        if (linha.Contains(tipoPrestador!.RemoveAccents().ToUpper())
+                            && linha.Contains("FUNCIONAMENTO NORMAL"))
+                        {
+                            find = true;
+                        }
                     }
                 }
 
@@ -86,6 +90,18 @@ namespace Proj.Drive.CVM
 
             return find;
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Baixa e salva o arquivo CSV da url informada
