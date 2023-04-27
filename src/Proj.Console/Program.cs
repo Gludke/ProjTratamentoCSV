@@ -36,8 +36,7 @@ static async Task ExecutarPrograma()
             case "1":
                 Console.WriteLine($"\nATUALIZANDO BASE...");
 
-                var driveCsv = new ProcessCsv();
-                await driveCsv.CopyCsvFromUrlZip();
+                await new ProcessAllCsv().Process();
 
                 Console.WriteLine($"\nBASE ATUALIZADA COM SUCESSO");
 
